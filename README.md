@@ -7,9 +7,7 @@ Este projeto foi desenvolvido no Bootcamp Santander Fullstack Developer pela <a 
 
 ## Implementações
 
-- Abstração- Linguagem de programação: Typescript
-- Framework: Angular
-- IDE: Visual Studio Code
+- Abstração
 - Encapsulamento
 - Herança
 - Polimorfismo
