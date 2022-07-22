@@ -1,8 +1,14 @@
 package entities;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 public class Account {
 
     private static Integer DEFAULT_NUMBER = 1;
+    private static final DecimalFormatSymbols REAL = new DecimalFormatSymbols(new Locale("pt", "BR"));
+    private DecimalFormat decimalFormat = new DecimalFormat("¤ ###,###,##0.00", REAL);
 
     private Integer number;
     private Integer agency;
@@ -39,12 +45,11 @@ public class Account {
     }
 
     public String showAccount() {
-        return "Dados da conta: \n" +
-                "Banco: " + bank.getName() + "\n" +
-                "Número: " + number + "\n" +
-                "Agência: " + agency + "\n" +
-                "Títular: " + accountHolder.getName() + "\n" +
-                "Saldo: R$" + balance;
+        return "Banco: " + this.bank.getName() + "\n" +
+                "Número: " + this.number + "\n" +
+                "Agência: " + this.agency + "\n" +
+                "Títular: " + this.accountHolder.getName() + "\n" +
+                "Saldo: " + decimalFormat.format(this.balance) + "\n";
     }
 
     public void deposit(Double value) {

@@ -1,15 +1,18 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bank {
 
+    private static Integer DEFAULT_NUMBER = 1;
+
     private Integer id;
     private String name;
-    private List<Account> Account;
+    private List<Account> accounts = new ArrayList<>();
 
-    public Bank(Integer id, String name) {
-        this.id = id;
+    public Bank(String name) {
+        this.id = DEFAULT_NUMBER++;
         this.name = name;
     }
 
@@ -22,10 +25,10 @@ public class Bank {
     }
 
     public void addAccount(Account account) {
-        Account.add(account);
+        this.accounts.add(account);
     }
 
     public List<Account> getAccount() {
-        return Account;
+        return accounts;
     }
 }
