@@ -1,18 +1,8 @@
 package entities;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+import utils.FormatMoney;
 
 public class Account {
-
-  private static final DecimalFormatSymbols REAL = new DecimalFormatSymbols(
-    new Locale("pt", "BR")
-  );
-  private DecimalFormat decimalFormat = new DecimalFormat(
-    "¤ ###,###,##0.00",
-    REAL
-  );
 
   private Integer number;
   private Integer agency;
@@ -68,13 +58,18 @@ public class Account {
       this.accountHolder.getName() +
       "\n" +
       "Saldo: " +
-      decimalFormat.format(this.balance) +
+      FormatMoney.format(this.balance) +
       "\n"
     );
   }
 
   public void deposit(Double value) {
     this.balance += value;
+    System.out.println(
+      "Operação realizada com sucesso! Saldo atualizado " +
+      FormatMoney.format(this.balance) +
+      "\n"
+    );
   }
 
   public boolean withdraw(Double value) {

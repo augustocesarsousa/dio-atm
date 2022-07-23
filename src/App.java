@@ -42,6 +42,7 @@ public class App {
 
     Bank bankSelected = selectBank(banks);
     Account accountSelect = selectAccount(bankSelected);
+    makeOperations(accountSelect);
 
     scanner.close();
   }
@@ -57,7 +58,7 @@ public class App {
       for (Bank bank : banks) {
         System.out.println(bank.getId() + " - para " + bank.getName());
       }
-      System.out.println("0 - para finalizar\n");
+      System.out.println("0 - para Finalizar\n");
 
       System.out.print("Opção: ");
       bankId = scanner.nextInt();
@@ -65,7 +66,7 @@ public class App {
 
       switch (bankId) {
         case 0:
-          Exit();
+          exit();
         case 1:
           bankSelected = banks.get(0);
           bankOption = false;
@@ -117,7 +118,7 @@ public class App {
         System.out.printf("Opção: ");
         int option = scanner.nextInt();
         System.out.println("");
-        if (option != 1) Exit();
+        if (option != 1) exit();
       } else {
         findAccount = false;
       }
@@ -126,7 +127,54 @@ public class App {
     return account;
   }
 
-  private static void Exit() {
+  private static void makeOperations(Account account) {
+    int option;
+
+    System.out.println("Olá " + account.getAccountHolder().getName() + "!\n");
+    System.out.println("Selecione a operação que deseja realizar!\n");
+
+    System.out.println("1 - para Depósito");
+    System.out.println("2 - para Saldo");
+    System.out.println("3 - para Saque");
+    System.out.println("4 - para Transferência");
+    System.out.println("0 - para Finalizar\n");
+    System.out.print("Opção: ");
+    option = scanner.nextInt();
+    System.out.println("");
+
+    switch (option) {
+      case 0:
+        exit();
+        break;
+      case 1:
+        deposit(account);
+      default:
+        break;
+    }
+  }
+
+  private static void deposit(Account account) {
+    Double value;
+
+    System.out.println("Depósito:\n");
+    System.out.print("Digite o valor do depósito: ");
+    value = scanner.nextDouble();
+    account.deposit(value);
+
+    System.out.println("Deseja realizar outra operação?\n");
+    System.out.println("1 - para SIM");
+    System.out.println("2 - para NÃO\n");
+    System.out.printf("Opção: ");
+    int option = scanner.nextInt();
+    System.out.println("");
+    if (option != 1) {
+      exit();
+    } else {
+      makeOperations(account);
+    }
+  }
+
+  private static void exit() {
     System.out.println("Obrigado por utilizar nossos serviços!");
     System.exit(0);
   }
