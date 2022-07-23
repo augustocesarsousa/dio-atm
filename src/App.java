@@ -7,6 +7,7 @@ import entities.AccountHolder;
 import entities.Bank;
 import entities.CurrentAccount;
 import entities.SavingsAccount;
+import utils.FormatMoney;
 
 public class App {
 
@@ -147,20 +148,36 @@ public class App {
         exit();
         break;
       case 1:
-        deposit(account);
+        makeDeposit(account);
+        break;
+      case 2:
+        getBalance(account);
+        break;
       default:
         break;
     }
   }
 
-  private static void deposit(Account account) {
+  private static void makeDeposit(Account account) {
     Double value;
 
-    System.out.println("Depósito:\n");
+    System.out.println("------ Depósito ------\n");
     System.out.print("Digite o valor do depósito: ");
     value = scanner.nextDouble();
     account.deposit(value);
 
+    makeOtherOperation(account);
+  }
+
+  private static void getBalance(Account account) {
+    System.out.println(
+      "Saldo atual " + FormatMoney.format(account.getBalance()) + "\n"
+    );
+
+    makeOtherOperation(account);
+  }
+
+  private static void makeOtherOperation(Account account) {
     System.out.println("Deseja realizar outra operação?\n");
     System.out.println("1 - para SIM");
     System.out.println("2 - para NÃO\n");
