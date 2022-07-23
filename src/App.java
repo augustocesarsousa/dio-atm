@@ -153,6 +153,9 @@ public class App {
       case 2:
         getBalance(account);
         break;
+      case 3:
+        makeWithdraw(account);
+        break;
       default:
         break;
     }
@@ -174,6 +177,25 @@ public class App {
       "Saldo atual " + FormatMoney.format(account.getBalance()) + "\n"
     );
 
+    makeOtherOperation(account);
+  }
+
+  private static void makeWithdraw(Account account) {
+    Double value;
+
+    System.out.println("------ Saque ------\n");
+    System.out.print("Digite o valor do saque: ");
+    value = scanner.nextDouble();
+    System.out.println("");
+    if (account.withdraw(value)) {
+      System.out.println(
+        "Operação realizada com sucesso! Saldo atualizado " +
+        FormatMoney.format(account.getBalance()) +
+        "\n"
+      );
+    } else {
+      System.out.println("Operação não realizada, saldo insuficiente!\n");
+    }
     makeOtherOperation(account);
   }
 
