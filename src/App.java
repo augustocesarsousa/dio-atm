@@ -87,6 +87,8 @@ public class App {
   private static Account selectAccount(Bank bank) {
     boolean findAccount = true;
     Account account = null;
+    Integer accountNumber;
+    Integer accountAgency;
 
     System.out.println("\nBem vindo ao " + bank.getName() + "!\n");
 
@@ -94,10 +96,10 @@ public class App {
       System.out.println("Informe os dados da sua conta abaixo:\n");
 
       System.out.print("Conta: ");
-      Integer accountNumber = scanner.nextInt();
+      accountNumber = scanner.nextInt();
 
       System.out.print("Agência: ");
-      Integer accountAgency = scanner.nextInt();
+      accountAgency = scanner.nextInt();
 
       System.out.println("");
 
@@ -114,12 +116,7 @@ public class App {
         System.out.println(
           "Conta não encontrada, gostaria de refazer a busca?\n"
         );
-        System.out.println("1 - para SIM");
-        System.out.println("2 - para NÃO\n");
-        System.out.printf("Opção: ");
-        int option = scanner.nextInt();
-        System.out.println("");
-        if (option != 1) exit();
+        makeOtherOperation(account);
       } else {
         findAccount = false;
       }
@@ -156,6 +153,9 @@ public class App {
       case 3:
         makeWithdraw(account);
         break;
+      case 4:
+        makeTransference(account);
+        break;
       default:
         break;
     }
@@ -167,7 +167,15 @@ public class App {
     System.out.println("------ Depósito ------\n");
     System.out.print("Digite o valor do depósito: ");
     value = scanner.nextDouble();
+    System.out.println("");
+
     account.deposit(value);
+
+    System.out.println(
+      "Operação realizada com sucesso! Saldo atualizado " +
+      FormatMoney.format(account.getBalance()) +
+      "\n"
+    );
 
     makeOtherOperation(account);
   }
@@ -199,17 +207,106 @@ public class App {
     makeOtherOperation(account);
   }
 
+  private static void makeTransference(Account account) {
+    Integer bankId;
+
+    Bank bankSelected = null;
+    Account accountSelected = null;
+
+    Integer accountNumber;
+    Integer accountAgency;
+
+    boolean bankOption = true;
+    boolean findAccount = true;
+
+    double value;
+
+    System.out.println("------ Transferência ------\n\n");
+    System.err.println("Selecione o banco do destinatário\n");
+
+    while (bankOption) {
+      for (Bank bank : banks) {
+        System.out.println(bank.getId() + " - para " + bank.getName());
+      }
+      System.out.println("0 - para Finalizar\n");
+
+      System.out.print("Opção: ");
+      bankId = scanner.nextInt();
+      System.out.println("");
+
+      switch (bankId) {
+        case 0:
+          exit();
+        case 1:
+          bankSelected = banks.get(0);
+          bankOption = false;
+          break;
+        case 2:
+          bankSelected = banks.get(1);
+          bankOption = false;
+          break;
+        default:
+          System.out.println("Esta opção não existe!\n");
+          break;
+      }
+    }
+
+    System.err.println("Informe os dados da conta do destinatário:\n");
+
+    while (findAccount) {
+      System.out.print("Conta: ");
+      accountNumber = scanner.nextInt();
+
+      System.out.print("Agência: ");
+      accountAgency = scanner.nextInt();
+      System.out.println("");
+
+      for (Account acc : bankSelected.getAccount()) {
+        if (
+          accountAgency == acc.getAgency() && accountNumber == acc.getNumber()
+        ) accountSelected = acc;
+      }
+
+      if (accountSelected == null) {
+        System.out.println(
+          "Conta não encontrada, gostaria de refazer a busca?\n"
+        );
+        makeOtherOperation(account);
+      } else {
+        findAccount = false;
+      }
+    }
+
+    System.err.println("Informe o valor da transferência:\n");
+    System.out.print("Valor: ");
+    value = scanner.nextDouble();
+    System.out.println("");
+
+    account.transference(value, accountSelected);
+    makeOtherOperation(account);
+  }
+
   private static void makeOtherOperation(Account account) {
     System.out.println("Deseja realizar outra operação?\n");
-    System.out.println("1 - para SIM");
-    System.out.println("2 - para NÃO\n");
-    System.out.printf("Opção: ");
-    int option = scanner.nextInt();
-    System.out.println("");
-    if (option != 1) {
-      exit();
-    } else {
-      makeOperations(account);
+
+    while (true) {
+      System.out.println("1 - para SIM");
+      System.out.println("2 - para NÃO\n");
+      System.out.printf("Opção: ");
+      int option = scanner.nextInt();
+      System.out.println("");
+
+      switch (option) {
+        case 1:
+          makeOperations(account);
+          break;
+        case 2:
+          exit();
+          break;
+        default:
+          System.out.println("Esta opção não existe!\n");
+          break;
+      }
     }
   }
 

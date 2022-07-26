@@ -65,11 +65,6 @@ public class Account {
 
   public void deposit(Double value) {
     this.balance += value;
-    System.out.println(
-      "Operação realizada com sucesso! Saldo atualizado " +
-      FormatMoney.format(this.balance) +
-      "\n"
-    );
   }
 
   public boolean withdraw(Double value) {
@@ -82,6 +77,15 @@ public class Account {
   }
 
   public void transference(Double value, Account account) {
-    if (this.withdraw(value)) account.deposit(value);
+    if (this.withdraw(value)) {
+      account.deposit(value);
+      System.out.println(
+        "Operação realizada com sucesso! Saldo atualizado " +
+        FormatMoney.format(this.balance) +
+        "\n"
+      );
+    } else {
+      System.out.println("Operação não realizada, saldo insuficiente!\n");
+    }
   }
 }

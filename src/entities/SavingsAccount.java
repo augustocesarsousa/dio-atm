@@ -1,7 +1,5 @@
 package entities;
 
-import utils.FormatMoney;
-
 public class SavingsAccount extends Account {
 
   private final Double INTEREST_FEE = 0.02;
@@ -19,10 +17,5 @@ public class SavingsAccount extends Account {
   @Override
   public void deposit(Double value) {
     this.balance += value + (value * INTEREST_FEE);
-    System.out.println(
-      "Operação realizada com sucesso! Saldo atualizado " +
-      FormatMoney.format(this.balance) +
-      "\n"
-    );
   }
 }
